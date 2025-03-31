@@ -29,3 +29,7 @@ SELECT_COMPLETED_TASKS = """
 SELECT_INCOMPLETED_TASKS = """
     SELECT id, task, completed FROM tasks WHERE completed = 0
 """
+
+DELETE_COMPLETED_TASKS = """
+    DELETE FROM tasks WHERE completed = 1
+"""

@@ -35,7 +35,7 @@ def main(page: ft.Page):
         def save_edit(_):
             new_text = task_field.value.split(' [')[0]
 
-            if len(new_text) > 2:
+            if len(new_text) > 100:
                 page.snack_bar = ft.SnackBar(ft.Text("Задача не может быть длиннее 100 символов!"), open=True)
                 return
 
@@ -59,7 +59,7 @@ def main(page: ft.Page):
         if not task_text:
             return
             
-        if len(task_text) > 2:
+        if len(task_text) > 100:
             page.snack_bar = ft.SnackBar(ft.Text("Задача не может быть длиннее 100 символов!"))
             page.snack_bar.open = True
             page.update()
@@ -80,6 +80,10 @@ def main(page: ft.Page):
         main_db.delete_task_db(task_id)
         load_task()
 
+    def delete_completed_task(_):
+        main_db.delete_completed_tasks_db()
+        load_task()
+
     def set_filter(filter_value):
         nonlocal filter_type
 
@@ -87,12 +91,22 @@ def main(page: ft.Page):
         load_task()
 
     
-    task_input = ft.TextField(hint_text="Add task", dense=True, expand=True, on_submit=add_task, max_length=3)
+    task_input = ft.TextField(hint_text="Add task", dense=True, expand=True, on_submit=add_task, max_length=100)
     add_button = ft.ElevatedButton("Add", on_click=add_task, icon=ft.icons.ADD)
+
+    delete_completed_button = ft.ElevatedButton(
+        "Clear Completed",
+        on_click=delete_completed_task,
+        icon=ft.icons.CLEANING_SERVICES,
+        color=ft.colors.WHITE,
+        bgcolor=ft.colors.RED_400
+    )
+
     filter_button = ft.Row([
         ft.ElevatedButton("All", on_click=lambda e: set_filter("all")),
         ft.ElevatedButton("Completed", on_click=lambda e: set_filter("completed")),
-        ft.ElevatedButton("Incompleted", on_click=lambda e: set_filter("incompleted"))                  
+        ft.ElevatedButton("Incompleted", on_click=lambda e: set_filter("incompleted")),
+        delete_completed_button                  
     ], alignment=ft.MainAxisAlignment.CENTER)
 
 

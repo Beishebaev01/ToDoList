@@ -1,12 +1,13 @@
 CREATE_TABLE_TASKS = """
     CREATE TABLE IF NOT EXISTS tasks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        task TEXT NOT NULL
+        task TEXT NOT NULL,
+        completed INTEGER DEFAULT 0
         )
 """
 
 SELECT_TASKS = """
-    SELECT id, task FROM tasks
+    SELECT id, task, completed FROM tasks
 """
 
 INSERT_TASK = """
@@ -19,4 +20,12 @@ UPDATE_TASK = """
 
 DELETE_TASK = """
     DELETE FROM tasks WHERE id = ?
+"""
+
+SELECT_COMPLETED_TASKS = """
+    SELECT id, task, completed FROM tasks WHERE completed = 1
+"""
+
+SELECT_INCOMPLETED_TASKS = """
+    SELECT id, task, completed FROM tasks WHERE completed = 0
 """
